@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<unload unload_date="2016-02-26 11:31:12">
+<sys_remote_update_set action="INSERT_OR_UPDATE">
+<application display_value="Global">global</application>
+<application_name>Global</application_name>
+<application_scope>global</application_scope>
+<application_version/>
+<collisions/>
+<commit_date/>
+<deleted/>
+<description/>
+<inserted/>
+<name>ServiceNow Guys - Advanced Attachment Copy Util</name>
+<origin_sys_id/>
+<release_date/>
+<remote_sys_id>b00d92394ff1d200bf004a318110c7e6</remote_sys_id>
+<state>loaded</state>
+<summary/>
+<sys_created_by>www.ServiceNowGuys.com</sys_created_by>
+<sys_created_on>2016-02-26 11:31:12</sys_created_on>
+<sys_id>524e92394ff1d200bf004a318110c7a6</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_updated_by>www.ServiceNowGuys.com</sys_updated_by>
+<sys_updated_on>2016-02-26 11:31:12</sys_updated_on>
+<update_set display_value=""/>
+<update_source display_value=""/>
+<updated/>
+</sys_remote_update_set>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="Global">global</application>
+<category>customer</category>
+<comments/>
+<name>sys_script_include_001c1af54ff1d200bf004a318110c7de</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;public&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;global.copySpecificAttachment&lt;/api_name&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;description&gt;Call this function to copy a specific attachment from one record to another. &amp;#13;
+copySpecificAttachment takes the following arguments: &amp;#13;
+1. Donor table. This is the name of the table that the donor record (the record FROM which attachments should be copied) resides in. &amp;#13;
+2. Donor ID. This is the sys_id of the record from which the attachment should be copied. &amp;#13;
+3. Recipient Table. This is the name of the table that the recipient record resides in. &amp;#13;
+4. Recipient ID. This is the sys_id of the record to which the newly copied attachment should be associated. &amp;#13;
+5. File name. This is the exact name of the attachment file to be copied, including the extension. (Ex: "quarterly_report.xlsx")&lt;/description&gt;&lt;name&gt;copySpecificAttachment&lt;/name&gt;&lt;script&gt;&lt;![CDATA[function copySpecificAttachment(donorTable, donorID, recipientTable, recipientID, fileName) {
+	var donorAttSysID;
+	var newAttRecord;
+	var linkToNewRecord;
+	var attDataRecord;
+	var newDocRecord;
+	var attRecord = new GlideRecord('sys_attachment');
+	attRecord.addQuery('table_name', donorTable);
+	attRecord.addQuery('table_sys_id', donorID);
+	attRecord.addQuery('file_name', fileName);
+	attRecord.query();
+	while (attRecord.next()) {
+		donorAttSysID = attRecord.getValue('sys_id');
+		newAttRecord = copyRecord(attRecord);
+		newAttRecord.setValue('table_name', recipientTable);
+		newAttRecord.setValue('table_sys_id', recipientID);
+		newAttRecord.update();
+		linkToNewRecord = gs.getProperty('glide.servlet.uri') + newAttRecord.getLink();
+		attDataRecord = new GlideRecord('sys_attachment_doc');
+		attDataRecord.addQuery('sys_attachment', donorAttSysID);
+		attDataRecord.query();
+		while (attDataRecord.next()) {
+			newDocRecord = copyRecord(attDataRecord);
+			newDocRecord.setValue('sys_attachment', newAttRecord.getValue('sys_id'));
+			newDocRecord.update();
+		}
+	}
+}]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;www.ServiceNowGuys.com&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2016-02-26 11:26:15&lt;/sys_created_on&gt;&lt;sys_customer_update&gt;true&lt;/sys_customer_update&gt;&lt;sys_id&gt;001c1af54ff1d200bf004a318110c7de&lt;/sys_id&gt;&lt;sys_mod_count&gt;1&lt;/sys_mod_count&gt;&lt;sys_name&gt;copySpecificAttachment&lt;/sys_name&gt;&lt;sys_package display_value="Global" source="global"&gt;global&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_replace_on_upgrade&gt;false&lt;/sys_replace_on_upgrade&gt;&lt;sys_scope display_value="Global"&gt;global&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_001c1af54ff1d200bf004a318110c7de&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;www.ServiceNowGuys.com&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2016-02-26 11:30:55&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;/record_update&gt;</payload>
+<remote_update_set display_value="ServiceNow Guys - Advanced Attachment Copy Util">524e92394ff1d200bf004a318110c7a6</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>www.ServiceNowGuys.com</sys_created_by>
+<sys_created_on>2016-02-26 11:31:12</sys_created_on>
+<sys_id>924e92394ff1d200bf004a318110c7a6</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_updated_by>www.ServiceNowGuys.com</sys_updated_by>
+<sys_updated_on>2016-02-26 11:31:12</sys_updated_on>
+<table/>
+<target_name>copySpecificAttachment</target_name>
+<type>Script Include</type>
+<update_domain>global</update_domain>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+<sys_update_xml action="INSERT_OR_UPDATE">
+<action>INSERT_OR_UPDATE</action>
+<application display_value="Global">global</application>
+<category>customer</category>
+<comments/>
+<name>sys_script_include_254d92394ff1d200bf004a318110c76d</name>
+<payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;public&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;global.copyRecord&lt;/api_name&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;description&gt;Call this function to make a copy of a specific record. &amp;#13;
+This function takes one input: A GlideElement object, containing the record to be copied. &amp;#13;
+copyRecord will make an EXACT copy of the record that is passed into it, except it will not copy the sys_id, or 'number' (if it exists). &amp;#13;
+This function will also return a GlideRecord object containing the new record, so you can make any additional changes you'd like and then call .update() to save them. &amp;#13;
+If you do not wish to make any additional changes to the newly copied record, it is not necessary to run .update(). &amp;#13;
+&amp;#13;
+Example usage: &amp;#13;
+var newRecord = copyRecord(gr);&amp;#13;
+newRecord.setValue('short_description', 'This record was made as a copy of ' + gr.getValue('number') + '.');&amp;#13;
+newRecord.update();&lt;/description&gt;&lt;name&gt;copyRecord&lt;/name&gt;&lt;script&gt;&lt;![CDATA[function copyRecord(record) {
+	var recordElement;
+	var recordElementName;
+	var recordTable = record.getTableName();
+	var recordFields = record.getFields();
+	var newRecord = new GlideRecord(recordTable);
+	newRecord.initialize();
+	for (var i = 0; i &lt; recordFields.size(); i++) {
+		recordElement = recordFields.get(i);
+		if(recordElement.getName() != 'sys_id' &amp;&amp; recordElement.getName() != 'number')
+		{
+			recordElementName = recordElement.getName();
+			newRecord.setValue(recordElementName, record.getValue(recordElementName));
+		}
+	}
+	var newSysId = newRecord.insert();
+	return newRecord;
+}]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;www.ServiceNowGuys.com&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2016-02-26 11:26:46&lt;/sys_created_on&gt;&lt;sys_customer_update&gt;true&lt;/sys_customer_update&gt;&lt;sys_id&gt;254d92394ff1d200bf004a318110c76d&lt;/sys_id&gt;&lt;sys_mod_count&gt;2&lt;/sys_mod_count&gt;&lt;sys_name&gt;copyRecord&lt;/sys_name&gt;&lt;sys_package display_value="Global" source="global"&gt;global&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_replace_on_upgrade&gt;false&lt;/sys_replace_on_upgrade&gt;&lt;sys_scope display_value="Global"&gt;global&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_254d92394ff1d200bf004a318110c76d&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;www.ServiceNowGuys.com&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2016-02-26 11:30:36&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;/record_update&gt;</payload>
+<remote_update_set display_value="ServiceNow Guys - Advanced Attachment Copy Util">524e92394ff1d200bf004a318110c7a6</remote_update_set>
+<replace_on_upgrade>false</replace_on_upgrade>
+<sys_created_by>www.ServiceNowGuys.com</sys_created_by>
+<sys_created_on>2016-02-26 11:31:12</sys_created_on>
+<sys_id>d24e92394ff1d200bf004a318110c7a6</sys_id>
+<sys_mod_count>0</sys_mod_count>
+<sys_updated_by>www.ServiceNowGuys.com</sys_updated_by>
+<sys_updated_on>2016-02-26 11:31:12</sys_updated_on>
+<table/>
+<target_name>copyRecord</target_name>
+<type>Script Include</type>
+<update_domain>global</update_domain>
+<update_set display_value=""/>
+<view/>
+</sys_update_xml>
+</unload>
