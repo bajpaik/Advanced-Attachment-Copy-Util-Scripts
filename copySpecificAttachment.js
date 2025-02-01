@@ -28,3 +28,22 @@ function copySpecificAttachment(donorTable, donorID, recipientTable, recipientID
 		}
 	}
 }
+
+function copyRecord(record) {
+	var recordElement;
+	var recordElementName;
+	var recordTable = record.getTableName();
+	var recordFields = record.getFields();
+	var newRecord = new GlideRecord(recordTable);
+	newRecord.initialize();
+	for (var i = 0; i < recordFields.size(); i++) {
+		recordElement = recordFields.get(i);
+		if(recordElement.getName() != 'sys_id' && recordElement.getName() != 'number')
+		{
+			recordElementName = recordElement.getName();
+			newRecord.setValue(recordElementName, record.getValue(recordElementName));
+		}
+	}
+	var newSysId = newRecord.insert();
+	return newRecord;
+}
